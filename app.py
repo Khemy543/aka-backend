@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request, session
 from flask_mail import Mail, Message
 from flask_cors import CORS ,cross_origin
 
+#heroku
+#https://salty-anchorage-79079.herokuapp.com/
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'shut the fuck up'
@@ -25,7 +27,7 @@ mail = Mail(app)
 def home():
     return "WELCOME!!!"
 
-    
+
 @app.route('/api/v1/post-message',  methods = ["POST"])
 @cross_origin(origin = '*', headers=['Content- Type', 'Authorization'])
 def  index():
@@ -33,11 +35,12 @@ def  index():
         _email = request.json['email']
         _name = request.json['name']
         _message = request.json['message']
+        _phone = request.json['phone']
 
         msg = Message(subject=_name,
                       sender=app.config.get("MAIL_USERNAME"),
-                      recipients=["gassafuah@gmail.com"], 
-                      body=" name : "+_name+ "\n email : "+_email+ "\n message : " +_message )
+                      recipients=["welivemusic99@gmail.com"], 
+                      body=" name : "+_name+ "\n email : "+_email+ "\n phone : "+_phone+ "\n message : " +_message )
         mail.send(msg)
         return jsonify({"message":"Message sent successfully","status":200})
 
