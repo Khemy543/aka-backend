@@ -35,12 +35,11 @@ def  index():
         _email = request.json['email']
         _name = request.json['name']
         _message = request.json['message']
-        _phone = request.json['phone']
 
         msg = Message(subject=_name,
                       sender=app.config.get("MAIL_USERNAME"),
-                      recipients=["welivemusic99@gmail.com"], 
-                      body=" name : "+_name+ "\n email : "+_email+ "\n phone : "+_phone+ "\n message : " +_message )
+                      recipients=["gassafuah@gmail.com"], 
+                      body=" name : "+_name+ "\n email : "+_email+ "\n message : " +_message )
         mail.send(msg)
         return jsonify({"message":"Message sent successfully","status":200})
 
