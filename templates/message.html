@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>CSS Template</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+section {
+  padding: 20px;
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+.image{
+  width: 180px;
+  height: auto;
+  margin-top: 10px;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+<div style="text-align: center;">
+  <img src='http://127.0.0.1:5000/static/logo-footer.png' alt="logo here" class="image"/>
+  </div>
+<section>
+  <article>
+    <h1>{{ name }}</h1>
+    <h3>{{ email }}</h3>
+    <p>{{ message }}</p>
+  </article>
+</section>
+</div>
+<footer>
+  <p>John Tilly Montessori</p>
+  <p>copyright @ johntillymontessori</p>
+</footer>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, session
+from flask import Flask, jsonify, request, session, render_template, url_for
 from flask_mail import Mail, Message
 from flask_cors import CORS ,cross_origin
 
@@ -17,17 +17,18 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'kevinosmol7690@gmail.com',
-    "MAIL_PASSWORD":'crave654'
+    "MAIL_USERNAME": 'ahadzi.airdem@gmail.com',
+    "MAIL_PASSWORD":'kaydfzdddjpjeuzr'
 }
 app.config.update(mail_settings)
 mail = Mail(app)
 
+#get home 
 @app.route("/", methods=["GET"])
 def home():
-    return "WELCOME!!!"
+    return url_for('static', filename="logo-footer.png", _external=True)
 
-
+#servie message
 @app.route('/api/v1/post-message',  methods = ["POST"])
 @cross_origin(origin = '*', headers=['Content- Type', 'Authorization'])
 def  index():
@@ -36,16 +37,61 @@ def  index():
         _name = request.json['name']
         _message = request.json['message']
 
-        msg = Message(subject=_name,
+        msg = Message(subject="Information Request",
                       sender=app.config.get("MAIL_USERNAME"),
                       recipients=["gassafuah@gmail.com"], 
-                      body=" name : "+_name+ "\n email : "+_email+ "\n message : " +_message )
+                      body= 'Hello',
+                      html=render_template('message.html', name=_name, email=_email, message=_message, logo=url_for('static', filename="logo-footer.png", _external=True)) )
         mail.send(msg)
         return jsonify({"message":"Message sent successfully","status":200})
 
 			
     except Exception as e:
-        return jsonify({"message":"Not sent", "status":400})
+        return jsonify({"message":"Not sent", "status":400, 'error':str(e)});
+
+#admissionForm submission
+@app.route('/api/v1/admission-form', methods=['POST'])
+@cross_origin(origin= '*', headers=['Content- Type', 'Authorization'])
+def formSubmission():
+    try:
+        firstname = request.json['firstname']
+        lastname = request.json['lastname']
+        nationality = request.json['nationality']
+        age = request.json['age']
+        sex = request.json['sex']
+        program = request.json['program']
+        guardfirstname= request.json['guardfirstname']
+        guardlastname = request.json['guardlastname']
+        occupation = request.json['occupation']
+        address = request.json['address']
+        phone = request.json['phone']
+        email = request.json['email']
+
+        msg = Message(
+            subject='Admissions',
+            sender=app.config.get('MAIL_USERNAME'),
+            recipients=['gassafuah@gmail.com'],
+            body="New Admission Received",
+            html=render_template('admissionForm.html',
+                firstname=firstname, 
+                lastname=lastname, 
+                nationality=nationality, 
+                age=age, 
+                sex=sex, 
+                program=program,
+                guardfirstname=guardfirstname,
+                guardlastname=guardlastname,
+                occupation=occupation,
+                address=address,
+                phone=phone,
+                email=email
+            )
+            )
+        mail.send(msg)
+        return jsonify({"message":"Form submitted", "status":200})
+    
+    except Exception as e:
+        return jsonify({"message":"Not sent", "error":str(e)});
 
 @app.after_request
 def after_request(response):
